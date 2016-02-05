@@ -1,0 +1,277 @@
+@font-face {
+  font-family: 'Glyphicons Halflings';
+
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+@font-face {
+    font-family: 'geometric_231regular';
+    src: url('../fonts/geometric_231_regular-webfont.eot');
+    src: url('../fonts/geometric_231_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/geometric_231_regular-webfont.woff2') format('woff2'),
+         url('../fonts/geometric_231_regular-webfont.woff') format('woff'),
+         url('../fonts/geometric_231_regular-webfont.ttf') format('truetype'),
+         url('../fonts/geometric_231_regular-webfont.svg#geometric_231regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'geometric_231bold';
+    src: url('../fonts/ufonts.com_geometric231bt-boldc-opentype-webfont.eot');
+    src: url('../fonts/ufonts.com_geometric231bt-boldc-opentype-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ufonts.com_geometric231bt-boldc-opentype-webfont.woff') format('woff'),
+         url('../fonts/ufonts.com_geometric231bt-boldc-opentype-webfont.ttf') format('truetype'),
+         url('../fonts/ufonts.com_geometric231bt-boldc-opentype-webfont.svg#geometric_231bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'lucida_granderegular';
+    src: url('../fonts/6216-webfont.eot');
+    src: url('../fonts/6216-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/6216-webfont.woff2') format('woff2'),
+         url('../fonts/6216-webfont.woff') format('woff'),
+         url('../fonts/6216-webfont.ttf') format('truetype'),
+         url('../fonts/6216-webfont.svg#lucida_granderegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/********* Global *******/
+/************************/
+/************************/
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body { font-family: 'lucida_granderegular', 'Helvetica', 'Arial', sans-serif; background: url('//phgstagingtwo.wpengine.com/wp-content/themes/phg-gold/library/images/gold-foil-bg.jpg') fixed; }
+
+a, a:visited { color: #a17e15; } 
+a:hover, a:focus, a:visited:hover, a:visited:focus {
+    color: #a17e15;
+}
+
+/****** Header *********/
+/***********************/
+/***********************/
+body.home #content { margin-top: 0px; }
+header { font-family: 'geometric_231bold', 'Helvetica', 'Arial', sans-serif; line-height: 1; }
+header nav { text-align: center; }
+header nav ul { display: inline-block; }
+.nav li a { 
+	text-transform: uppercase; 
+	font-size: 85%;
+}
+.nav li a:hover {
+	text-decoration: none; 
+	color: #a17e15; 
+} 
+#logo { text-align: center; }
+header .tagline { display: none; } 
+#inner-header > .container { position: relative; }
+div#right-header { 
+	position: absolute; 
+	top: 0px; 
+	right: 0px;
+	z-index: 999; 
+	display: none; 
+}
+div#right-header a {
+	color: #fff; 
+	text-decoration: none; 
+	text-transform: uppercase; 
+	display: block;
+	margin-top: 10px; 
+}
+div#right-header > span { display: inline-block; }
+div#right-header a:active, div#right-header a:hover {
+	text-decoration: underline; 
+}
+div#right-header .discovery { padding: 0 10px; }
+div#right-header .discovery a {
+	font-size: 8pt; 
+}
+div#right-header span.book-now {
+	background: url('/wp-content/themes/phg-gold/library/images/header-banner.png') no-repeat; 
+	width: 134px; 
+	height: 107px; 
+	font-size: 12pt; 
+	text-align: center; 
+}
+
+/****** Body **********/
+/***********************/
+/***********************/
+.home #content .wrap { padding: 0 0 50px; } 
+.top-section .flexslider { font-family: 'geometric_231bold', 'Helvetica', 'Arial', sans-serif; }
+.flexslider { 
+	height: 550px; 
+	overflow: hidden; 
+}
+.flex-caption a { text-decoration: none; }
+.flex-caption h2 { 
+	font-family: 'geometric_231bold', 'Helvetica', 'Arial', sans-serif;
+	color: #a17e15; 
+	font-style: normal; 
+	text-transform: uppercase;
+}
+.flex-caption h2:active, .flex-caption h2:hover {
+	color: #ffffff; 
+}
+body.home .flex-control-nav { display: none; }
+.no-widgets { display: none; }
+.home #content .hentry {
+	background-color: transparent; 
+	margin-bootom: 0; 
+	border: 0px solid #000000; 
+}
+.home #content .hentry header { 
+	display: none; 
+}
+
+/****** Footer *******/
+/***********************/
+/***********************/
+footer #inner-footer { padding-bottom: 200px; }
+
+div.footer-links { text-align: center; margin-top: 50px; }
+div.footer-links ul { display: inline-block; }
+div.footer-links .nav li a { padding: 1em 0.75em; }
+
+#social ul {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0;
+}
+#social li a { 
+	color: #ffffff; 
+	border-radius: 100px; 
+	background-color: #a17e15; 
+	width: 28px;
+	height: 28px;
+	display: table-cell; 
+	text-align: center; 
+	vertical-align: middle;
+	font-size: 100%; 
+}
+#social li a:hover, #social li a:focus, #social li a:visited:hover, #social li a:visited:focus {
+    background-color: #7f807e;
+}
+#social li a span { display: none; }
+
+p.copyright { text-align: center; display: none; }
+
+/*******************************/
+/***** Do it live!!!!! *********/
+/*******************************/
+body.home #respond, body.page #respond { display: none; }
+.flexslider .slides img { max-width: 100%; display: block; margin: auto; width: 100%; height: auto; }
+.flex-caption .read-more { display: none; }
+body.home .fp-search { background: #000; width: 80%; margin: -30px auto 0; z-index: 99; display: block; position: relative; opacity: 0.75; filter: alpha(opacity =75); border-bottom: 10px solid #9f7c0e; text-align: center; }
+body.home .fp-search form { padding: 0 25px; }
+body.home .fp-search input[type="text"], body.home .fp-search input[type="submit"] { display: inline-block; }
+body.home .fp-search input[type="text"] { background: none; color: #fff; width: 400px; }
+body.home .fp-search input[type="submit"] { background: url('/wp-content/themes/phg-gold/library/images/search-glass.png') no-repeat; width: 21px; height: 21px; border: 0px solid #000; }
+.fp-table { line-height: 0; margin-bottom: 50px;  }
+.fp-table img { margin: 0; }
+.fp-table .column { width: 49%; float: left; }
+.fp-table .column.c1 { margin-right: 2%; }
+.fp-table .column.c2 .r1 img { width: 48%; float: left; margin-bottom: 11px; }
+.fp-table .column.c2 .r1 a:first-child img { margin-right: 4%; }
+.bottom-image img { margin: 30px 0 0; width: 100%; }
+body.home .hentry footer { display: none; } 
+body.page .top-section img { width: 100%; height: auto; vertical-align: bottom; }
+body.page .hentry { background: none; border: 0px solid #000; }
+body.page .hentry header { display: none; }
+body.page .hentry footer { border-top: 0px solid #000; }
+body.page { color: #000; font-family: 'geometric_231regular', 'Helvetica', 'Arial', sans-serif; }
+body.page #content { margin-top: 0px; }
+body.page #content #inner-content { background-color: #f2f0e9; }
+body.page #content h1 { font-family: 'geometric_231bold', 'Helvetica', 'Arial', sans-serif; text-transform: uppercase; }
+body.page #content h2 { text-transform: uppercase; }
+body.page #content .top-section { max-height: 400px; overflow: hidden; line-height: 1; }
+body.page #content .top-section img { background-attachment: fixed; }
+body.home #content .top-section { max-height: inherit; }
+body.home #content .top-section img { background-attachment: scroll; }
+body.subpage #content nav { display: none; }
+body.meritage-location #content nav { display: block; }
+body.subpage #content nav#fp-submenu { background-color: #003851; text-align: center; line-height: 1.5; }
+body.subpage #content nav#fp-submenu ul { list-style: none; display: inline-block; margin: 0; text-align: center; }
+body.subpage #content nav#fp-submenu ul li { display: inline-block; float: left; position: relative; }
+body.subpage #content nav#fp-submenu ul li a { color: #fff; text-decoration: none; font-family: 'geometric_231bold', 'Helvetica', 'Arial', sans-serif; line-height: 1; text-transform: uppercase; padding: 0.75em; display: inline-block; }
+body.subpage #content nav#fp-submenu ul li a:hover, body.page #content nav#fp-submenu ul li a:active { color: #a17e15; }
+body.page .top-section .location-card { position: absolute; color: #fff; background: #000; opacity: 0.75; top: 25%; left: 30%; width: 40%; text-align: center; text-transform: uppercase; padding: 20px; display: none; }
+body.page .top-section .location-card h3 { margin: 0; }
+body.page .top-section .location-card h2 { border-bottom: 1px solid #fff; margin: 0 0 30px; padding: 0 0 30px; }
+body.page .top-section .location-card .temperature-display { margin-right: 50px; }
+body.subpage #content #inner-content { position: relative; top: -30px; }
+body.meritage-location #content #inner-content { position: inherit; top: inherit; }
+body.subpage #content #inner-content h1 { margin-top: 0px; }
+body.subpage.page-id-1793 .top-section .location-card { display: none; }
+body.subpage .collections-table .hotel-tabs { -webkit-box-shadow: 10px 9px 21px 0px rgba(171,171,171,0.17); -moz-box-shadow: 10px 9px 21px 0px rgba(171,171,171,0.17); box-shadow: 10px 9px 21px 0px rgba(171,171,171,0.17); width: 80%; float: none; margin: 0 auto 50px;  }
+body.subpage .collections-table .tablet-1, body.subpage .collections-table .tablet-3, body.subpage .collections-table .tablet-5 { margin-right: auto; }
+body.subpage .collections-table .hotel-tabs img { margin: 0; height: 254px; width: 100%; padding: 0; border-bottom: 4px solid #9f7c0e; line-height: 1; vertical-align:bottom; }
+body.subpage ul.tabs { list-style: none; margin: 0; }
+body.subpage ul.tabs li { display: inline-block; cursor: pointer; background: #f2f0e9; padding: 5px 25px; margin: 0; float: left; width: 25%; text-align: center; }
+body.subpage ul.tabs li.active { background: #fff; }
+body.subpage ul.tabs li.book-now { background: #003851; color: #ffffff; }
+body.subpage .tabs-set .tab { display: none; background: #fff;  padding: 10px 15px;  }
+body.subpage .tabs-set .tab h3 { margin: 0; text-transform: uppercase; font-family: 'geometric_231bold', 'Helvetica', 'Arial', sans-serif; }
+body.subpage .tabs-set .tab h4 { margin: 0 0 5px; text-transform: uppercase; font-weight: 300; font-size: 0.8em; }
+body.subpage .tabs-set .tab .read-more { text-align: center; }
+body.subpage .tabs-set .tab .learn-more { background: #003851; color: #fff; padding: 5px 15px; text-decoration: none; text-align: center; text-transform: uppercase; }
+body.subpage .tabs-set .overview-tab { display: block; }
+body.page.page-id-1780 .entry-content .owl-carousel img { height: 180px; }
+body.subpage div.hotel-tabs img + p { display: none; padding: 0px; height: 0px; }
+body.subpage section.parallax-move { background-attachment: fixed; min-height: 350px; max-height: 350px; }=
+div#carousel_slider1789 { margin-top: 30px; }
+body.subpage p.check-availability-btn { text-align: center; }
+
+@media (max-width: 1029px) and (min-width: 768px) {
+	.t-2of3 {
+		padding-right: 0px; 
+		width: 100%;
+	}
+}
+
+@media (min-width: 500px) {
+	.flexslider li > img { height: 400px; }
+}
+
+
+@media (min-width: 768px) {
+	#logo { margin: 0; padding: 0.75em 0 0 0; text-align: left; }
+	div#right-header { display: block; }
+}
+
+@media (min-width: 920px) { }
+
+@media (min-width: 1030px) {
+	.d-5of7 {
+		padding-right: 0px; 
+		width: 100%;
+	}
+	
+	.flexslider li > img { height: 500px; }
+
+	body.subpage .collections-table .hotel-tabs { width: 47%; float: left; margin-bottom: 50px;  }
+	body.subpage .collections-table .tablet-1, body.subpage .collections-table .tablet-3, body.subpage .collections-table .tablet-5 { margin-right: 6%; }
+	body.subpage .top-section .location-card { display: block; }
+}
+
+@media (min-width: 1220px) {
+	.flexslider li > img { height: 550px; }
+	body.home .fp-search { width: 1040px; }
+	body.subpage .top-section .location-card { width: 20%; left: 40%; }
+}
