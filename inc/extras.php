@@ -132,6 +132,31 @@ function phg_gold_footer_links() {
 } /* end phg_gold footer link */
 endif;
 
+if ( ! function_exists( 'custom_filter_footer_social_name' ) ) :
+
+function custom_filter_footer_social_name($args) {
+  if(! is_admin() ) {
+    $tags = get_the_tags();
+    $tag_list = array(); 
+    if(count($tags) > 0 && is_array($tags)) {
+      foreach($tags as $tag) {
+        array_push($tag_list, $tag->name);
+      }
+    }
+    $locations = array("brs", "tmr", "bbr", "kkr", "phs", "elj"); 
+    $plugin_settings = get_option('dc_phgmgmtconsole');
+    $curr_location = (count(array_intersect($tag_list, $locations)) > 0) ?  array_pop(array_intersect($tag_list, $locations)) : "default";
+    if ($curr_location == "default") {
+      $menu_name = ''; 
+    } else {
+      $menu_name = $plugin_settings[$curr_location . '_base' ];
+    }
+    return str_replace('__LOCATION__', $menu_name, $args);  
+  }
+}
+add_filter( 'wp_nav_menu', 'custom_filter_footer_social_name' );
+endif;
+
 if ( ! function_exists( 'phg_gold_featured_image' ) ) :
 /**
  * Show the featured image 
@@ -144,27 +169,259 @@ function phg_gold_featured_image() {
       echo '<section class="featured-image wp-post-image parallax-move" style="background-image:url(\' ' . $featured_img_url . ' \');"></section>';
       // the_post_thumbnail( 'full', array('class'=>"attachment-full parallax-move") );
       if ( sizeof(get_post_custom_values('location')) != 0 ) :
-        echo '<div class="location-card">';
-        date_default_timezone_set('America/Los_Angeles');
-        $jsonurl = "http://api.openweathermap.org/data/2.5/weather?q=" . urlencode(array_pop(get_post_custom_values('location'))) . '&APPID=ee2337a86981da09d339cc66337fcb7e';
-        $json = file_get_contents($jsonurl);
-        $weather = json_decode($json);
-        $kelvin = $weather->main->temp;
-        $celcius = $kelvin - 273.15;
-        $fahrenheit = $celcius * 9/5 + 32; 
-        echo '<span class="title"><h3>Meritage Collection</h3><h2>';
-        echo array_pop(get_post_custom_values('collection_name')); 
-        echo '</h2></span>';
-        echo '<span class="temperature-display">' . round($fahrenheit);
-        echo '&degF</span><span class="time-display">' . date('g:i a'); 
-        echo '</span></div>'; 
+          $content = array_pop(get_post_custom_values('location'));
+          $location_array = explode(',', htmlspecialchars($content)); 
+          $city = $location_array[0];
+          $location_html = '<div class="location-card">';
+          if (strtolower($content) == "poipu beach, hi") {
+            date_default_timezone_set('Pacific/Honolulu');
+          } else {
+            date_default_timezone_set('America/Los_Angeles');
+          }
+          $jsonurl = "http://api.openweathermap.org/data/2.5/weather?q=" . urlencode($content) . '&APPID=ee2337a86981da09d339cc66337fcb7e';
+          $json = file_get_contents($jsonurl);
+          $weather = json_decode($json);
+          $kelvin = $weather->main->temp;
+          $celcius = $kelvin - 273.15;
+          $fahrenheit = $celcius * 9/5 + 32; 
+          
+          $location_html .= '<h1 class="city-location">'.$city.'</h1>';
+          $location_html .= '<span class="temperature-display">' . round($fahrenheit);
+          $location_html .= '&degF</span><span class="time-display">' . date('g:i a'); 
+          $location_html .= '</span></div>'; 
+          echo $location_html; 
       endif;
 
-      phg_gold_fp_submenu_display();
+      if(has_tag('location')) {
+        phg_gold_get_hotel_menu();
+      }
     } 
   }
 }
 endif; 
+
+if ( ! function_exists( 'phg_gold_featured_product_image' ) ) :
+/**
+ * Show the featured image 
+ */
+function phg_gold_featured_product_image() {
+  if( ( !is_home() && !is_front_page() ) ) {
+    if ( sizeof(get_post_custom_values('featured_image')) != 0 ) {
+      $featured_img = htmlspecialchars(array_pop(get_post_custom_values('featured_image')));
+      echo '<section class="featured-image wp-post-image parallax-move" style="background-image:url(\' ' . $featured_img . ' \');"></section>';
+      
+      phg_gold_get_hotel_menu();
+    } 
+  }
+}
+endif; 
+
+if ( ! function_exists( 'phg_gold_get_hotel_footer_menu' ) ):
+function phg_gold_get_hotel_footer_menu() {
+  if( has_tag('bacara') ) {
+    $menu = wp_get_nav_menu_object( "Bacara Footer Menu" );
+    $class = "bacara-footer-menu"; 
+  } elseif( has_tag('balboa')) {
+    $menu = wp_get_nav_menu_object( "Balboa Footer Menu" );
+    $class = "balboa-footer-menu";
+  }
+  elseif ( has_tag('estancia') ) {
+    $menu = wp_get_nav_menu_object( "Estancia Footer Menu" );
+    $class = "estancia-footer-menu";
+  }
+  elseif ( has_tag('koakea') ) {
+    $menu = wp_get_nav_menu_object( "Koa Kea Footer Menu" );
+    $class = "koakea-footer-menu";
+  }
+  elseif ( has_tag('meritage') ) {
+    $menu = wp_get_nav_menu_object( "Meritage Footer Menu" );
+    $class = "meritage-footer-menu";
+  }
+  elseif ( has_tag('pasea') ) {
+    $menu = wp_get_nav_menu_object( "Pasea Footer Menu" );
+    $class = "pasea-footer-menu";
+  }
+  else {
+    $menu = wp_get_nav_menu_object( "Footer Menu" );
+    $class = "default-footer-menu";
+  }
+   $menuitems = wp_get_nav_menu_items( $menu->term_id, array( 'order' => 'DESC' ) );
+  print '<nav class="hotel-footer-menu '. $class . '" role="navigation">';
+  print '<div class="footer-links cf">';
+  print '<ul class="nav footer-nav-cf" id="menu-footer-menu">';
+  $count = 0; 
+  $submenu = false; 
+
+  if (count($menuitems) > 0) {
+    foreach( $menuitems as $item ):
+      $title = $item->title; 
+      $link = $item->url; 
+
+      if ( !$item->menu_item_parent ):
+        $parent_id = $item->ID;
+        print "<li class='menu-item menu-item-type-post_type menu-item-object-page menu-item-$parent_id' id='menu-item-$parent_id'>";
+        print "<a href='$link' class='title'>$title</a>";
+      endif;  
+
+      if( $parent_id == $item->menu_item_parent ):
+        if( !$submenu ): $submenu = true; 
+          print "<ul class='sub-menu'>";
+        endif;
+        print "<li class='item'><a href='$link' class='title'>$title</a></li>";
+
+        if ( $menuitems[ $count + 1 ]->menu_item_parent != $parent_id && $submenu ): 
+          print "</ul>";
+          $submenu = false; 
+        endif;
+
+        if ( $menuitems[ $count + 1 ]->menu_item_parent != $parent_id ):
+          print "</li>";
+          $submenu = false;
+        endif;
+      endif;
+      $count++;
+    endforeach;
+  }
+  print '</ul>';
+  print '</div>'; 
+  print '</nav>'; 
+}
+endif; 
+
+if ( ! function_exists( 'phg_gold_get_hotel_menu' ) ):
+function phg_gold_get_hotel_menu() {
+  if( has_tag('bacara') ) {
+    $menu = wp_get_nav_menu_object( "Bacara Menu" );
+    $class = "bacara-menu"; 
+    $img_logo = "/wp-content/themes/phg-gold/library/images/bacara-logo.png";
+    $img_title = "Bacara Resort and Spa"; 
+    $link = "/bacararesort/";
+  }
+  elseif ( has_tag('balboa') || has_tag('product_tag-balboa')) {
+    $menu = wp_get_nav_menu_object( "Balboa Menu" );
+    $class = "balboa-menu";
+    $img_logo = "/wp-content/themes/phg-gold/library/images/balboa-logo.png";
+    $img_title = "Balboa Bay Resort and Spa"; 
+    $link = "/balboabayresort/"; 
+  }
+  elseif ( has_tag('estancia') ) {
+    $menu = wp_get_nav_menu_object( "Estancia Menu" );
+    $class = "estancia-menu";
+    $img_logo = "/wp-content/themes/phg-gold/library/images/estancia-logo.png";
+    $img_title = "Estancia La Jolla Hotel"; 
+    $link = "/estancialajolla/";
+  }
+  elseif ( has_tag('koakea') ) {
+    $menu = wp_get_nav_menu_object( "Koa Kea Menu" );
+    $class = "koakea-menu";
+    $img_logo = "/wp-content/themes/phg-gold/library/images/koakea-logo.png";
+    $img_title = "Koa Kea Hotel";
+    $link = "/koakea/"; 
+  }
+  elseif ( has_tag('meritage') ) {
+    $menu = wp_get_nav_menu_object( "Meritage Menu" );
+    $class = "meritage-menu";
+    $img_logo = "/wp-content/themes/phg-gold/library/images/meritage-logo.png";
+    $img_title = "The Meritage Resort and Spa"; 
+    $link = "/meritageresort/";
+  }
+  elseif ( has_tag('pasea') ) {
+    $menu = wp_get_nav_menu_object( "Pasea Menu" );
+    $class = "pasea-menu";
+    $img_logo = "/wp-content/themes/phg-gold/library/images/pasea-logo.png";
+    $img_title = "Pasea Hotel and Spa";
+    $link = "/paseahotel/"; 
+  }
+  else {
+    $menu = wp_get_nav_menu_object( "Sub-Page Menu" );
+    $class = "default-menu";
+  }
+  $menuitems = wp_get_nav_menu_items( $menu->term_id, array( 'order' => 'DESC' ) );
+  print '<nav class="hotel-submenu '. $class . ' fp-submenu-icons cf" id="fp-submenu">';
+  print '<span id="hotel_nav-menu_button" class="icon-menu"></span>'; 
+  $img_headers = @get_headers($img_logo); 
+  if ( $img_logo && $img_headers[0] != 'HTTP/1.1 404 Not Found' ) { print "<a href='$link'><img class='hotel-logo' src='$img_logo' alt='$img_title'/></a>"; }
+  print '<ul class="fp-submenu-menu" id="menu-fp-submenu-items">';
+  $count = 0; 
+  $submenu = false; 
+
+  if (count($menuitems) > 0) {
+    foreach( $menuitems as $item ):
+      $title = $item->title; 
+      $link = $item->url; 
+
+      if ( !$item->menu_item_parent ):
+        $parent_id = $item->ID;
+        print "<li class='item'>";
+        print "<a href='$link' class='title'>$title</a>";
+      endif;  
+
+      if( $parent_id == $item->menu_item_parent ):
+        if( !$submenu ): $submenu = true; 
+          print "<ul class='sub-menu'>";
+        endif;
+        print "<li class='item'><a href='$link' class='title'>$title</a></li>";
+
+        if ( $menuitems[ $count + 1 ]->menu_item_parent != $parent_id && $submenu ): 
+          print "</ul>";
+          $submenu = false; 
+        endif;
+
+        if ( $menuitems[ $count + 1 ]->menu_item_parent != $parent_id ):
+          print "</li>";
+          $submenu = false;
+        endif;
+      endif;
+      $count++;
+    endforeach;
+  }
+  print '</ul>';
+  print '</nav>'; 
+}
+endif;
+
+if( ! function_exists( 'phg_gold_featured_video' ) ):
+function phg_gold_featured_video() {
+  $show_controls = '';
+  //if(is_ipad() || is_phone()) { $show_controls=" controls"; }
+  if ( sizeof(get_post_custom_values('featured_video')) != 0 ) :
+    echo '<div class="featured-video">'; 
+      echo '<video id="featuredVideo" width="1920" preload ' . $show_controls .' autoplay loop>';
+      echo '<source src="' . htmlspecialchars(array_pop(get_post_custom_values('featured_video'))) . '" type="video/mp4">';
+      echo '<source src="' . str_replace("mp4", "webm", htmlspecialchars(array_pop(get_post_custom_values('featured_video')))) . '" type="vp8,vorbis">'; 
+      echo 'Your browser does not support the video element.'; 
+      echo '</video>';
+      echo '<div class="flex-caption">';
+          if ( sizeof(get_post_custom_values('featured_title')) > 0) echo '<a href="' . get_permalink() . '"><h2 class="entry-title">'. array_pop(get_post_custom_values('featured_title')).'</h2></a>';
+          //if ( get_the_title() != '' ) echo '<a href="' . get_permalink() . '"><h2 class="entry-title">'. get_the_title().'</h2></a>';
+          if (get_post_meta($query->post->ID, 'tagline', true) != '') { $link_text = get_post_meta($query->post->ID, 'tagline', true); } else { $link_text = 'Read More'; }
+          echo '<div class="read-more"><a href="' . get_permalink() . '">' . __( $link_text, 'phg_gold' ) .'</a></div>';
+      echo '</div>';
+    echo '</div>';
+    echo '<script>document.getElementById("featuredVideo").width=document.body.offsetWidth;</script>'; 
+
+    if( has_tag('location') ) {
+      phg_gold_get_hotel_menu();
+    }
+  endif;
+}
+endif; 
+
+if ( ! function_exists( 'phg_gold_featured_master_slider' ) ) :
+/**
+ * Featured image slider, displayed on front page for static page and blog
+ */
+function phg_gold_featured_master_slider() {
+  if ( sizeof(get_post_custom_values('featured_slider')) != 0 ) :
+    preg_match('!\d+!', array_pop(get_post_custom_values('featured_slider')), $matches);
+    masterslider(array_pop($matches));
+
+    if( has_tag('location') ) {
+      phg_gold_get_hotel_menu(); 
+    }
+  endif;
+}
+endif;
 
 if ( ! function_exists( 'phg_gold_featured_slider' ) ) :
 /**
@@ -208,14 +465,94 @@ function phg_gold_featured_slider() {
           echo '</li>';
       echo '</ul>';
     echo ' </div>';
-    echo '<div class="fp-search">';
-    echo '<form method="get" id="search_form" action="<?php bloginfo(\'home\'); ?>"/>';
-    echo '<input type="text" class="text" name="s" placeholder="ENTER YOUR DESTINATION" >';
-    echo '<input type="submit" class="submit" value=""  />';
-    echo '</form>';
-    echo '</div>'; 
+  } elseif( get_post_meta($post->ID, 'flexslides', TRUE) != '' ) {
+    wp_enqueue_style( 'flexslider-css' );
+    wp_enqueue_script( 'flexslider-js' );
+    
+    echo '<div class="flexslider">';
+      echo '<ul class="slides">';
+        
+        $img_array = explode(",", get_post_meta($post->ID,'flexslides',TRUE)); 
+
+        if (sizeof($img_array) > 0) :
+          while( list($key, $val) = each($img_array) ) {
+          echo '<li>';
+            $img_url = $val; 
+            $img_headers = @get_headers($img_url); 
+            if ( $img_url && $img_headers[0] != 'HTTP/1.1 404 Not Found' ) :
+              list($img_width, $img_height, $img_type, $img_attr) = getimagesize($img_url); 
+              echo '<img width="' . $img_width .'" height="' . $img_height . '" src="' . $img_url . '" class="attachment-phg_gold-slider wp-post-image" alt="' . get_the_title() .'" draggable="false"/>'; 
+            else:
+              $img_err = "/wp-content/phg-gold/library/images/error404.jpg"; 
+              list($img_width, $img_height, $img_type, $img_attr) = getimagesize($img_err); 
+              echo '<img width="' . $img_width .'" height="' . $img_height . '" src="' . $img_err . '" class="attachment-phg_gold-slider wp-post-image" alt="' . get_the_title() .'" draggable="false"/>';
+            endif;
+
+              } 
+              wp_reset_query();
+            endif;
+
+          echo '</li>';
+      echo '</ul>';
+    echo ' </div>';
   }
 }
+endif;
+
+if ( ! function_exists( 'phg_newsletter_signup' ) ) :
+  function phg_newsletter_signup() {
+    echo '<div class="newsletter featherlight" id="newsletter_signup">';
+    echo '<div class="inner-container">';
+    echo '<form class="form-horizontal">';
+    echo '<fieldset>';
+    echo '<!-- Form Name -->';
+    echo '<legend>Form Name</legend>';
+    echo '<!-- Text input-->';
+    echo '<div class="form-group">';
+    echo '<label class="col-md-4 control-label" for="FirstName">FirstName</label>  ';
+    echo '<div class="col-md-4">';
+    echo '<input id="name" name="FirstName" type="text" placeholder="Please enter your first name here" class="form-control input-md" required="">';
+    echo '</div>';
+    echo '</div>';
+    echo '<!-- Text input-->';
+    echo '<div class="form-group">';
+    echo '<label class="col-md-4 control-label" for="LastName">LastName</label>  ';
+    echo '<div class="col-md-4">';
+    echo '<input id="name" name="LastName" type="text" placeholder="Please enter your last name here" class="form-control input-md" required="">';
+    echo '</div>';
+    echo '</div>';
+    echo '<!-- Text input-->';
+    echo '<div class="form-group">';
+    echo '<label class="col-md-4 control-label" for="email">Email Address</label>  ';
+    echo '<div class="col-md-4">';
+    echo '<input id="emailaddr" name="email" type="text" placeholder="Please enter your email address here" class="form-control input-md" required="">';                
+    echo '</div>';
+    echo '</div>';
+    echo '<!-- Multiple Checkboxes -->';
+    echo '<div class="form-group">';
+    echo '<label class="col-md-4 control-label" for="customizeSelection"></label>';
+    echo '<div class="col-md-4">';
+    echo '<div class="checkbox">';
+    echo '<label for="customizeSelection-0">';
+    echo '<input type="checkbox" name="customizeSelection" id="customizeSelection-0" value="1">';
+    echo 'Customize your subscription';
+    echo '</label>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '<!-- Button (Double) -->';
+    echo '<div class="form-group">';
+    echo '<label class="col-md-4 control-label" for="btnSubmit"></label>';
+    echo '<div class="col-md-8">';
+    echo '<button id="btnSubmit" name="btnSubmit" class="btn btn-success">Submit</button>';
+    echo '<button id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>';
+    echo '</div>';
+    echo '</div>';
+    echo '</fieldset>';
+    echo '</form>';
+    echo '</div>';
+    echo '</div>';
+  }
 endif;
 
 if ( ! function_exists( 'phg_gold_social_stream' ) ) :
@@ -280,6 +617,29 @@ function phg_gold_caption($output, $attr, $content) {
   return $output;
 }
 add_filter('img_caption_shortcode', 'phg_gold_caption', 10, 3);
+
+function bones_get_the_author_posts_link() {
+    global $authordata;
+    if ( ! is_object( $authordata ) ) {
+        return;
+    }
+ 
+    $link = sprintf(
+        '<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
+        esc_url( get_author_posts_url( $authordata->ID, $authordata->user_nicename ) ),
+        esc_attr( sprintf( __( 'Posts by %s' ), get_the_author() ) ),
+        get_the_author()
+    );
+ 
+    /**
+     * Filter the link to the author page of the author of the current post.
+     *
+     * @since 2.9.0
+     *
+     * @param string $link HTML link.
+     */
+    return apply_filters( 'the_author_posts_link', $link );
+}
 
 /**
  * Skype URI support for social media icons

@@ -11,6 +11,9 @@ sidebars, comments, etc.
 
 // LOAD BONES CORE (if you remove this, the theme will break)
 require_once( 'library/bones.php' );
+require_once( 'library/custom.php' ); 
+require_once( 'library/menu-filters.php' );
+require_once( 'library/shortcodes.php' ); 
 
 // CUSTOMIZE THE WORDPRESS ADMIN (off by default)
 // require_once( 'library/admin.php' );
@@ -224,6 +227,10 @@ require get_template_directory() . '/inc/navwalker.php';
  */
 require get_template_directory() . '/inc/socialnav.php';
 /**
+ * Partner Nav Menu
+ */
+require get_template_directory() . '/inc/partnernav.php';
+/**
  * Front Page Gallery Nav Menu
  */
 require get_template_directory() . '/inc/fpgallerynav.php';
@@ -296,9 +303,16 @@ function phg_gold_scripts() {
   // Main theme related functions
   wp_enqueue_script( 'phg-gold-functions', get_template_directory_uri() . '/inc/js/functions.min.js', array('jquery') );
   
+  // IE Functions
+  wp_enqueue_script( 'phg-ie-fix', get_template_directory_uri() . '/library/js/ie-fix.js', array('jquery') );
+  wp_script_add_data( 'phg-ie-fix', 'conditional', 'lte IE 9' );
+
   // Add Font Awesome stylesheet
   wp_enqueue_style( 'phg-gold-icons', get_template_directory_uri().'/inc/css/font-awesome.min.css' );
-  
+
+  // Add Lightbox 
+  wp_enqueue_style( 'featherlight-css', get_template_directory_uri().'/inc/css/featherlight.min.css' );
+  wp_enqueue_script( 'featherlight-js', get_template_directory_uri().'/inc/js/featherlight.min.js', array('jquery'), false, true );
   bones_fonts();
 }
 

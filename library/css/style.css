@@ -510,8 +510,8 @@ some nice typographical defaults
 more here: http://www.newnet-soft.com/blog/csstypography
 */
 p {
-  -ms-word-break: break-all;
-  -ms-word-wrap: break-all;
+  -ms-word-break: normal;
+  -ms-word-wrap: normal;
   word-break: break-word;
   word-break: break-word;
   -webkit-hyphens: auto;

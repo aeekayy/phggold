@@ -2,7 +2,9 @@
 
 			<div id="content" class="site-content">
 				<div class="top-section<?php print (!is_home() && !is_front_page())?' parallax-img-container':''; ?>">
+					<?php phg_gold_featured_master_slider(); ?>
 					<?php phg_gold_featured_slider(); ?>
+					<?php phg_gold_featured_video(); ?> 
 					<?php phg_gold_featured_image(); ?>
 				</div>
 				
@@ -67,5 +69,7 @@
 				</div>
 
 			</div>
+
+		<?php phg_newsletter_signup(); ?>	
 
 <?php get_footer(); ?>

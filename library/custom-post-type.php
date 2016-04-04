@@ -119,6 +119,7 @@ function custom_post_example() {
 		)
 	);
 	
+	
 	/*
 		looking for custom meta boxes?
 		check out this fantastic tool:

@@ -18,6 +18,11 @@
 <?php get_header(); ?>
 
 			<div id="content">
+				<div class="top-section<?php print (!is_home() && !is_front_page())?' parallax-img-container':''; ?>">
+					<?php phg_gold_featured_master_slider(); ?>
+					<?php phg_gold_featured_slider(); ?>
+					<?php phg_gold_featured_video(); ?>
+				</div>
 
 				<div id="inner-content" class="wrap cf">
 

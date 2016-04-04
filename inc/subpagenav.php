@@ -35,11 +35,24 @@ function phg_gold_fp_submenu_display(){
                         'link_after'      => '</span>'
   		)
 	  );
-
-    foreach ( get_post_ancestors( $post->ID ) as $ancestorid ) 
-    {
-      //echo $ancestorid; 
-    }
   }
 }
+
+function custom_filter_menu_hotel_name($args) {
+  if(! is_admin() ) {
+    $tags = get_the_tags();
+    $tag_list = array(); 
+    if(count($tags) > 0) {
+      foreach($tags as $tag) {
+        array_push($tag_list, $tag->name);
+      }
+    }
+    $locations = array("brs", "tmr", "bbr", "kkr", "phs", "elj"); 
+    $plugin_settings = get_option('dc_phgmgmtconsole');
+    $curr_location = (count(array_intersect($tag_list, $locations)) > 0) ?  array_pop(array_intersect($tag_list, $locations)) : "default";
+    $menu_name = $plugin_settings[$curr_location . '_base' ];
+    return str_replace('__LOCATION__', $menu_name, $args);  
+  }
+}
+// add_filter( 'wp_nav_menu', 'custom_filter_menu_hotel_name' );
 endif;

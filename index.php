@@ -2,7 +2,8 @@
 
 			<div id="content" class="site-content">
 				<div class="top-section">
-					<?php phg_gold_featured_slider(); ?>
+					<?php phg_gold_featured_slider(); ?
+>					<?php phg_gold_featured_video(); ?> 
 				</div>
 				
 				<div id="inner-content" class="wrap cf container">

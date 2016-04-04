@@ -41,7 +41,15 @@
 	</head>
 
 	<body <?php body_class(); ?> itemscope itemtype="http://schema.org/WebPage">
-
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N7ZNTZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7ZNTZ');</script>
+<!-- End Google Tag Manager -->
 		<div id="container">
 
 			<header class="header" role="banner" itemscope itemtype="http://schema.org/WPHeader">
@@ -67,6 +75,7 @@
 					}?>
 
 					<div class="container">
+						<span id="main_nav-menu_button" class="icon-menu"></span>
 						<div id="logo">
 							<span class="site-name"><a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php 
 								if( $show_logo && $logo ) { 
@@ -91,7 +100,7 @@
 						<?php endif; ?>
 						<div id="right-header" class="header-extras">
 						<?php if( get_theme_mod('phg_gold_header_login') ) : ?>
-						<span class="discovery login"><a class="login-link" href="/login">
+						<span class="discovery login"><a class="login-link" href="https://www.gha.com/member/login" target="_blank">
 						Discovery Login
 						</a></span>
 						<?php endif; ?>
